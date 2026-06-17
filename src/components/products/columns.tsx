@@ -14,9 +14,11 @@ export const productColumns: ColumnDef<ProductType>[] = [
       const title = row.getValue("title") as string;
       return (
         <div className="flex items-center">
-          <img src={imgUrl || "/placeholder.svg"} //fallback no load image
-           alt={title || "Product Image"} 
-           className="h-12 w-12 rounded-lg ojbect-cover border bg-muted"/>
+          <img
+            src={imgUrl || "/placeholder.svg"} //fallback no load image
+            alt={title || "Product Image"}
+            className="h-12 w-12 rounded-lg ojbect-cover border bg-muted"
+          />
         </div>
       );
     },
@@ -48,7 +50,18 @@ export const productColumns: ColumnDef<ProductType>[] = [
   {
     accessorKey: "price",
     filterFn: (row, columnId, filterValue) => {
-        return String(row.getValue(columnId)).includes(String(filterValue));
+      // --search write 10 so show between 1.00-10.00
+      if (filterValue === "" || filterValue === undefined) return true;
+      const max = Number(filterValue);
+      if (Number.isNaN(max)) return true;
+      return row.getValue<number>(columnId) <= max;
+
+      //--for search price math specific number
+      // if(filterValue === "" || filterValue === undefined) return true;
+      // return row.getValue<number>(columnId) === Number(filterValue);
+
+      // --search all
+      // return String(row.getValue(columnId)).includes(String(filterValue));
     },
     header: ({ column }) => (
       <Button
