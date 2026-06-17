@@ -1,0 +1,5 @@
+ npx shadcn@latest init -t next
+ npm install @reduxjs/toolkit react-redux
+npm install @tanstack/react-table
+ npx shadcn@latest add table button input dialog
+
